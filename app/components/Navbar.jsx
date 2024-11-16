@@ -1,12 +1,13 @@
 import React from 'react'
+import Link from 'next/link'
 
 const Navbar = () => {
   return (
     <div className='  flex justify-between items-center px-4 py-3 '>
-        <h1 className='font-bold'>Quiz App</h1>
-        <button className='btn'>
-            Login
-        </button>
+      <Link href='/'>
+      <h1 className='font-bold'>Quiz App</h1>
+      </Link>
+        
     </div>
   )
 }

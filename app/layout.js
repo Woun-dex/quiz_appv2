@@ -1,6 +1,7 @@
 import {Inter} from "next/font/google";
 import "./globals.css";
 import  Navbar  from "./components/Navbar";
+import { ContextProvider  } from "./contextApi";
 import {
   ClerkProvider,
   SignInButton,
@@ -8,6 +9,10 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 
 const inter = Inter({ subsets: ['latin']})
@@ -24,8 +29,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.className} `}
       >
+      <ContextProvider >
        
-      <nav className="sticky top-0 flex justify-between items-center m-2 bg-black">
+      <nav className="sticky top-0 flex justify-between items-center m-2 bg-white dark:bg-black">
       <Navbar />
       <div className="flex justify-center  items-center gap-4">
         
@@ -42,7 +48,9 @@ export default function RootLayout({ children }) {
         
       </div>
       </nav>
+      
         {children}
+      </ContextProvider>
       </body>
     </html>
     </ClerkProvider>

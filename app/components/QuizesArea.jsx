@@ -1,25 +1,27 @@
-import React , { useContext } from 'react'
-import { ComponentsContext } from '../contextApi'
+import React from 'react';
 import QuizesCards from './QuizesCards';
+import Link from 'next/link';
+import useComponentContextProvider from '../contextApi';
 
 const QuizesArea = () => {
-    const  {quizLists} = useContext(ComponentsContext);
-
+  const { quizLists } = useComponentContextProvider();
 
   return (
-    <div className='mt-4 grid sm:grid-cols-3 lg:grid-cols-4 gap-2'>
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 
+        gap-6 auto-rows-fr
+        animate-fadeIn">
         {quizLists.map(item => (
             <QuizesCards
-            key = {item.id}
-            title= {item.title} 
-            description={item.description}
-            questions={item.questions}
+              key={item.id}
+              singleQuiz = {item}
             />
-            
+           
         ))}
-        
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default QuizesArea
+export default QuizesArea;
+

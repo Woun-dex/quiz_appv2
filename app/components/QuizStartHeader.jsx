@@ -8,7 +8,9 @@ const QuizStartHeader = () => {
     const {title} = selectQuizToStart ;
     const { description } = selectQuizToStart ;
 
+//TODO: ADD A TIMER 
   return (
+    
     <div>
         <div className=' flex flex-col gap-1'>
             <h1 className='text-3xl font-bold md:text-4xl lg:text-5xl text-green-800 dark:text-green-600  '>{title}</h1>

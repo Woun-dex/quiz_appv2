@@ -1,24 +1,26 @@
 "use client"
-import React  from 'react'
+import React, { useState }  from 'react'
 import useComponentContextProvider from '../../contextApi'
 import QuizStartHeader from '../../components/QuizStartHeader'
 import QuizStartMain from '../../components/QuizStartMain'
+
 const Page = () => {
   const  {quizLists , quizToStartObject } = useComponentContextProvider();
   const {selectQuizToStart} = quizToStartObject ; 
-  console.log(selectQuizToStart);
+  const [ parentTime , setParentTime ] = useState(30);
+
+  function onUpdateTimer(currentTime) {
+    setParentTime(currentTime);
+  }
+
   return (
     <div className='m-10'>
       <div>
-      <QuizStartHeader />
+        <QuizStartHeader parentTime={parentTime} />
       </div>
       <div>
-        <QuizStartMain />
+        <QuizStartMain onUpdateTimer={onUpdateTimer} />
       </div>
-      
-    
-      
-
     </div>
   )
 }

@@ -7,7 +7,8 @@ import QuizStartMain from '../../components/QuizStartMain'
 const Page = () => {
   const  {quizLists , quizToStartObject } = useComponentContextProvider();
   const {selectQuizToStart} = quizToStartObject ; 
-  const [ parentTime , setParentTime ] = useState(30);
+  const [ parentTime , setParentTime ] = useState(20);
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   function onUpdateTimer(currentTime) {
     setParentTime(currentTime);
@@ -16,10 +17,10 @@ const Page = () => {
   return (
     <div className='m-10'>
       <div>
-        <QuizStartHeader parentTime={parentTime} />
+        <QuizStartHeader parentTime={parentTime} isQuizCompleted={isQuizCompleted} />
       </div>
       <div>
-        <QuizStartMain onUpdateTimer={onUpdateTimer} />
+        <QuizStartMain onUpdateTimer={onUpdateTimer} isQuizCompleted={isQuizCompleted} setIsQuizCompleted={setIsQuizCompleted} />
       </div>
     </div>
   )

@@ -8,11 +8,6 @@ import useComponentContextProvide from '../contextApi';
 const Page = () => {
  
   const { quizLists, setQuizLists } = useComponentContextProvide();
-  
-
- 
-
- 
 
 
   return (

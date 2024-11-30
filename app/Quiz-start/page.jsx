@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import Image from 'next/image';
 import QuizesArea from '../components/QuizesArea';
 import useComponentContextProvide from '../contextApi';
+import Link from 'next/link';
 
 
 const Page = () => {
@@ -24,9 +25,11 @@ const Page = () => {
             />
             <p className="font-bold text-xl">No quizzes available! Make one.</p>
             <p className="text-sm mb-4">Click below to begin your journey here..</p>
+            <Link href="/create-quiz">
             <button className="btn text-sm" >
               Create my first quiz
             </button>
+            </Link>
           </div>
         ) : (
           <QuizesArea />

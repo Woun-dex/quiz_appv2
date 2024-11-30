@@ -3,17 +3,16 @@
 import React, { useMemo, useState } from 'react';
 import useComponentContextProvider from '../contextApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faBars, faPencil, faTrash , faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faEllipsisVertical, faPencil, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
 const QuizesCards = ({ singleQuiz }) => {
-  const { quizToStartObject , quizLists ,setQuizLists } = useComponentContextProvider();
+  const { quizToStartObject, quizLists, setQuizLists } = useComponentContextProvider();
   const { setSelectQuizToStart } = quizToStartObject;
   const { title, description, questions } = singleQuiz;
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // Calculate statistics using useMemo
   const statistics = useMemo(() => {
     return questions.reduce((acc, question) => ({
       totalAttempts: acc.totalAttempts + (question.statistics?.totalAttempts || 0),
@@ -32,7 +31,6 @@ const QuizesCards = ({ singleQuiz }) => {
   }, [statistics]);
 
   const handleModify = () => {
-    // Add modify logic
     setShowMenu(false);
   };
 
@@ -42,76 +40,135 @@ const QuizesCards = ({ singleQuiz }) => {
   };
 
   const confirmDelete = () => {
-    const updatedQuizLists = quizLists.filter(quiz => quiz.id !== singleQuiz.id);
-    setQuizLists(updatedQuizLists);
+    setQuizLists(quizLists.filter(quiz => quiz.id !== singleQuiz.id));
     setShowDeleteConfirm(false);
   };
 
   return (
-    <div className="group relative bg-gradient-to-br from-green-800 to-green-900 
-      rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 
-      w-full max-w-[280px]   min-h-[320px] overflow-hidden
-      hover:scale-[1.02] hover:-translate-y-1">
+    <div className="relative bg-slate-100 dark:bg-gray-900 rounded-2xl shadow-sm 
+      hover:shadow-lg transition-all duration-300 w-full max-w-[300px] overflow-hidden">
       
-      {/* Menu Button and Dropdown */}
-      <div className="absolute right-4 top-4 z-20">
+      {/* Menu */}
+      <div className="absolute right-3 top-3 z-20">
         <button 
-          className="text-white hover:text-green-300 transition-colors duration-200"
+          className="p-4 text-white hover:text-slate-300 dark:text-gray-400 
+            dark:hover:text-gray-200 transition-colors"
           onClick={() => setShowMenu(!showMenu)}
         >
-          <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faEllipsisVertical} className="h-5 w-5" />
         </button>
 
         {showMenu && (
-          <div className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-950 shadow-xl 
-            border border-green-800/20 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-gray-800 
+            shadow-lg border border-gray-100 dark:border-gray-700">
             <button 
               onClick={handleModify}
-              className="w-full px-4 py-2 text-left text-white hover:bg-green-950 
-                flex items-center gap-2 transition-colors duration-200"
+              className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-200 
+                hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-3"
             >
-              <FontAwesomeIcon icon={faPencil} className="h-4 w-4 text-green-800" />
+              <FontAwesomeIcon icon={faPencil} className="h-4 w-4" />
               Modify Quiz
             </button>
             <button 
               onClick={handleDelete}
-              className="w-full px-4 py-2 text-left  hover:bg-green-950
-                flex items-center gap-2 transition-colors duration-200"
+              className="w-full px-4 py-3 text-left text-red-600 hover:bg-gray-50 
+                dark:hover:bg-gray-700 flex items-center gap-3"
             >
-              <FontAwesomeIcon icon={faTrash} className="h-4 w-4 text-red-800" />
+              <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
               Delete Quiz
             </button>
           </div>
         )}
       </div>
 
+      {/* Content */}
+      <div className="p-6">
+        <div className="mb-6 bg-green-700 p-4 rounded-lg">
+          <img
+            src="vercel.svg"
+            alt={`${title} illustration`}
+            className="w-16 h-16 mx-auto object-contain"
+          />
+        </div>
+
+        <h1 className="text-gray-900 dark:text-white text-lg font-semibold mb-2 
+          text-center">
+          {title}
+        </h1>
+        
+        <p className="text-gray-600 dark:text-gray-400 text-sm text-center 
+          line-clamp-2 mb-6">
+          {description}
+        </p>
+
+        {/* Stats */}
+        <div className="space-y-4">
+          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+            <span>Questions: {questions.length}</span>
+            <span>Attempts: {statistics.totalAttempts}</span>
+          </div>
+
+          {/* Progress */}
+          <div className="relative h-2 bg-gray-100 dark:bg-gray-800 rounded-full 
+            overflow-hidden">
+            <div 
+              className="absolute h-full bg-green-500 rounded-full transition-all 
+                duration-500"
+              style={{ width: `${successRate}%` }}
+            />
+          </div>
+
+          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
+            <span>Correct: {statistics.correctAttempts}</span>
+            <span>{successRate}%</span>
+            <span>Wrong: {statistics.incorrectAttempts}</span>
+          </div>
+        </div>
+
+        {/* Start Button */}
+        <Link 
+          href="/Quiz-start/quiz"
+          onClick={() => setSelectQuizToStart(singleQuiz)}
+        >
+          <button className="mt-6 w-full py-3 px-4 bg-green-700 hover:bg-green-800 
+            text-white rounded-xl flex items-center justify-center gap-2 
+            transition-colors">
+            <FontAwesomeIcon icon={faPlay} className="h-4 w-4" />
+            Start Quiz
+          </button>
+        </Link>
+      </div>
+
+      {/* Delete Modal */}
       {showDeleteConfirm && (
-        <div className="absolute  inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-gray-950 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 border border-green-800/20">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl 
+            max-w-sm w-full mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">Confirm Delete</h3>
+              <h3 className="text-lg font-semibold">Confirm Delete</h3>
               <button 
                 onClick={() => setShowDeleteConfirm(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 
+                  dark:hover:text-gray-200"
               >
                 <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-gray-300 mb-6">
-              Are you sure you want to delete "{title}"? This action cannot be undone.
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Are you sure you want to delete "{title}"?
             </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 
-                  transition-colors duration-200"
+                className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 
+                  dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 
-                  transition-colors duration-200"
+                className="px-4 py-2 bg-red-500 text-white hover:bg-red-600 
+                  rounded-lg transition-colors"
               >
                 Delete
               </button>
@@ -119,88 +176,6 @@ const QuizesCards = ({ singleQuiz }) => {
           </div>
         </div>
       )}
-
-      {/* Quiz Image */}
-      <div className="relative p-6 flex justify-center items-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-green-900/50 to-transparent" />
-        <img
-          src="vercel.svg"
-          alt={`${title} illustration`}
-          className="w-20 h-20 object-contain transform group-hover:scale-110 
-            transition-transform duration-300 relative z-10"
-        />
-      </div>
-
-      {/* Quiz Content */}
-      <div className="p-6 space-y-4">
-        <h1 className="text-white text-xl font-bold text-center tracking-wide 
-          group-hover:text-green-300 transition-colors duration-300">
-          {title}
-        </h1>
-        
-        <p className="text-gray-300 text-sm text-center line-clamp-2 leading-relaxed">
-          {description}
-        </p>
-        
-        {/* Statistics Section */}
-        <div className="pt-4 border-t border-green-800/30 space-y-3">
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-300" />
-              <span className="text-green-300 font-medium">
-                Questions: {questions.length}
-              </span>
-            </div>
-            <span className="text-green-300 font-medium">
-              Attempts: {statistics.totalAttempts}
-            </span>
-          </div>
-
-          {/* Attempts Statistics */}
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-400" />
-              <span className="text-green-300">
-                Correct: {statistics.correctAttempts}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-400" />
-              <span className="text-red-300">
-                Wrong: {statistics.incorrectAttempts}
-              </span>
-            </div>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="space-y-2">
-            <div className="w-full bg-green-950 rounded-full h-2 overflow-hidden">
-              <div 
-                className="bg-green-400 h-full rounded-full transition-all duration-500"
-                style={{ width: `${successRate}%` }}
-              />
-            </div>
-            <p className="text-green-300 text-xs text-center">
-              Success Rate: {successRate}%
-            </p>
-          </div>
-
-          {/* Start Button */}
-          <Link 
-            href="/Quiz-start/quiz"
-            onClick={() => setSelectQuizToStart(singleQuiz)}
-            className="block w-full"
-          >
-            <div className="flex justify-center items-center mt-4">
-              <span className="bg-green-700 rounded-full p-2 w-10 h-10 
-                flex items-center justify-center hover:bg-green-600 
-                transition-all duration-300 hover:scale-110">
-                <FontAwesomeIcon icon={faPlay} className="text-white text-sm" />
-              </span>
-            </div>
-          </Link>
-        </div>
-      </div>
     </div>
   );
 };

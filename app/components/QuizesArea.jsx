@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons'; // Changed to free-solid-svg-icons
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import QuizesCards from './QuizesCards';
 import useComponentContextProvider from '../contextApi';
+import { v4 as uuidv4 } from 'uuid';
 
 const QuizesArea = () => {
   const { quizLists } = useComponentContextProvider();
@@ -16,6 +17,7 @@ const QuizesArea = () => {
         ))}
         
         <Link 
+          key="add-new-quiz" // Added key here
           href="/create-quiz" 
           className="flex flex-col items-center justify-center 
             border-2 border-dashed border-gray-300 
@@ -26,7 +28,7 @@ const QuizesArea = () => {
         >
           <FontAwesomeIcon 
             icon={faPlus} 
-            className="text-gray-400 group-hover:text-gray-600 mb-2 text-2xl" // Changed size-12 to text-2xl for better scaling
+            className="text-gray-400 group-hover:text-gray-600 mb-2 text-2xl"
           />
           <span className="text-gray-500 group-hover:text-gray-700">
             Add New Quiz

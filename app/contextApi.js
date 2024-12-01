@@ -1,6 +1,5 @@
 "use client"
 import { createContext, useState , useContext , useEffect} from "react";
-import { quizzesData } from "./QuizzesData"
 
 const ComponentsContext = createContext();
 
@@ -9,8 +8,10 @@ export function ContextProvider({children} ) {
     const [selectQuizToStart , setSelectQuizToStart]= useState(null); 
     
     useEffect(() => {
-        setQuizLists(quizzesData);
-    }, []);
+        // Example: Save quizzes to localStorage whenever they change
+        localStorage.setItem("quizzes", JSON.stringify(quizLists));
+      }, [quizLists]);
+      
     return (
         <ComponentsContext.Provider value={{ quizLists,
         setQuizLists ,

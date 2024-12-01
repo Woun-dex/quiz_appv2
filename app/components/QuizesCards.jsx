@@ -103,10 +103,7 @@ const QuizesCards = ({ singleQuiz }) => {
 
         {/* Stats */}
         <div className="space-y-4">
-          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-            <span>Questions: {questions.length}</span>
-            <span>Attempts: {statistics.totalAttempts}</span>
-          </div>
+          
 
           {/* Progress */}
           <div className="relative h-2 bg-gray-100 dark:bg-gray-800 rounded-full 
@@ -119,9 +116,9 @@ const QuizesCards = ({ singleQuiz }) => {
           </div>
 
           <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
-            <span>Correct: {statistics.correctAttempts}</span>
+            <span>Success rate</span>
             <span>{successRate}%</span>
-            <span>Wrong: {statistics.incorrectAttempts}</span>
+            
           </div>
         </div>
 

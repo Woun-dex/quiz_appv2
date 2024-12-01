@@ -1,5 +1,6 @@
 "use client"
 import { createContext, useState , useContext , useEffect} from "react";
+import axios from "axios";
 
 const ComponentsContext = createContext();
 
@@ -8,9 +9,16 @@ export function ContextProvider({children} ) {
     const [selectQuizToStart , setSelectQuizToStart]= useState(null); 
     
     useEffect(() => {
-        // Example: Save quizzes to localStorage whenever they change
-        localStorage.setItem("quizzes", JSON.stringify(quizLists));
-      }, [quizLists]);
+        async function fetchData() {
+          try {
+            const { data } = await axios.get("http://localhost:3030/quizzes");
+            setQuizLists(data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }
+        fetchData();
+      }, []);
       
     return (
         <ComponentsContext.Provider value={{ quizLists,

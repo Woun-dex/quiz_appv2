@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 import useComponentContextProvider from "../../contextApi";
 
 const QuizCreateQuestions = ({ newDeck, setNewDeck }) => {
@@ -106,6 +107,10 @@ const QuizCreateQuestions = ({ newDeck, setNewDeck }) => {
   };
 
   const validateForm = () => {
+    if (questions.length === 0) {
+      showAlertMessage("error", "The quiz must contain at least one question.");
+      return false;
+    }
     for (const question of questions) {
       if (!question.mainQuestion.trim()) {
         showAlertMessage("error", "A question is missing a title.");
@@ -126,14 +131,25 @@ const QuizCreateQuestions = ({ newDeck, setNewDeck }) => {
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
       showAlertMessage("success", "Quiz created successfully!");
       setNewDeck((prev) => ({
         ...prev,
         questions,
       }));
-      setQuizLists([...quizLists, { ...newDeck, questions }]);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3030/quizzes",
+          { ...newDeck, questions }
+        );
+        setQuizLists([...quizLists, response.data]);
+        showAlertMessage("success", "Quiz successfully saved to server.");
+      } catch (error) {
+        console.error("Error adding Quiz:", error);
+        showAlertMessage("error", "Failed to save quiz. Please try again.");
+      }
     }
   };
 

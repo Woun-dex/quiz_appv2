@@ -20,70 +20,8 @@ export const quizzesData = [
             incorrectAttempts: 0
           }
         },
-        {
-          id: 1,
-          mainQuestion: 'What does Django provide?',
-          choices: [
-            'A. Machine learning library',
-            'B. Full-stack web framework',
-            'C. Data analysis tools',
-            'D. Cloud storage services'
-          ],
-          answer: 1,
-          statistics: {
-            totalAttempts: 4,
-            correctAttempts: 3,
-            incorrectAttempts: 1
-          }
-        },
-        {
-          id: 2,
-          mainQuestion: 'Which of the following is a Python data type?',
-          choices: [
-            'A. String',
-            'B. Integer',
-            'C. List',
-            'D. All of the above'
-          ],
-          answer: 3,
-          statistics: {
-            totalAttempts: 6,
-            correctAttempts: 5,
-            incorrectAttempts: 1
-          }
-        },
-        {
-          id: 3,
-          mainQuestion: 'What is the output of the following code: print(5 // 2)?',
-          choices: [
-            'A. 2.5',
-            'B. 2',
-            'C. 3',
-            'D. Error'
-          ],
-          answer: 1,
-          statistics: {
-            totalAttempts: 4,
-            correctAttempts: 3,
-            incorrectAttempts: 1
-          }
-        },
-        {
-          id: 4,
-          mainQuestion: 'Which of the following is not a valid Python operator?',
-          choices: [
-            'A. +',
-            'B. -',
-            'C. @',
-            'D. /'
-          ],
-          answer: 2,
-          statistics: {
-            totalAttempts: 5,
-            correctAttempts: 4,
-            incorrectAttempts: 1
-          }
-        }
+       
+  
       ]
     },
     {
